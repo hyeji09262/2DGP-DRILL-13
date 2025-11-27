@@ -143,7 +143,10 @@ class Zombie:
         return BehaviorTree.SUCCESS
 
     def if_compare_ball(self):
-
+        if common.zombie.ball_count >= common.boy.ball_count:
+            return BehaviorTree.SUCCESS
+        else:
+            return BehaviorTree.FAIL
 
     def build_behavior_tree(self):
         a1 = Action('목적지 설정', self.set_target_location, 1000, 1000)
