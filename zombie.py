@@ -149,6 +149,15 @@ class Zombie:
             return BehaviorTree.FAIL
 
     def run_away(self):
+        dx = common.zombie.x - common.boy.x
+        dy = common.zombie.y - common.boy.y
+
+        speed = 5
+
+        target_x = common.zombie.x + dx * speed
+        target_y = common.zombie.y + dy * speed
+
+        return self.move_to(target_x, target_y)
 
     def build_behavior_tree(self):
         a1 = Action('목적지 설정', self.set_target_location, 1000, 1000)
@@ -168,11 +177,12 @@ class Zombie:
 
         chase_or_patrol = Selector('추적 또는 순찰', chase_boy, patrol)
 
-        root = chase_or_flee = Selector('추적 또는 배회', chase_boy, wander)
+
         c2 = Condition('소년이 좀비보다 공이 많은가', self.if_compare_ball)
         a6 = Action('소년에게서 도망', self.run_away)
-        compare_ball = sequence = c1,a4,c2,a6
-
+        chase_boy = Sequence('소년이 근처에 있으면 추적', c1, a4)
+        run_away = Sequence ('도망',c1, c2, a6, a5, a2)
+        root = chase_or_flee = Selector('추적 또는 도망', chase_boy, run_away)
 
         self.bt = BehaviorTree(root)
 
