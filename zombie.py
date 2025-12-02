@@ -180,9 +180,9 @@ class Zombie:
 
         c2 = Condition('소년이 좀비보다 공이 많은가', self.if_compare_ball)
         a6 = Action('소년에게서 도망', self.run_away)
-        run_away_from_boy = Sequence('공 비교 후 도망', c1, a4, c2, a6)
+        run_away_from_boy = Sequence('공 비교 후 도망',  c2, a6)
 
-        Selector('도망 또는 추적/순찰', run_away_from_boy, chase_or_patrol)
+        Selector('도망 또는 추적/순찰', run_away_from_boy, chase_or_flee)
 
 
         self.bt = BehaviorTree(root)
